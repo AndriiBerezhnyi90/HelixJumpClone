@@ -14,15 +14,9 @@ public class Helix : MonoBehaviour
     private float _angleStep = 30;
     private List<float> _availableAngles = new List<float>();
 
-    private void Start()
+    private void Awake()
     {
-        for (int i = 0; i < MaxPartsAmount; i++)
-        {
-            _availableAngles.Add(_startRotation.y);
-            _startRotation.y += _angleStep;
-        }
-
-        CreatePartsRandom();
+        FillAvailableAngles();
     }
 
     public void CreateFirsHelix()
@@ -51,9 +45,18 @@ public class Helix : MonoBehaviour
 
     public void CreateFinalHelix()
     {
+        while(_availableAngles.Count > 0)
+        {
+            CreatePart(_finalPart, _availableAngles.Count - 1);
+        }
+    }
+
+    private void FillAvailableAngles()
+    {
         for (int i = 0; i < MaxPartsAmount; i++)
         {
-            CreatePart(_finalPart, i);
+            _availableAngles.Add(_startRotation.y);
+            _startRotation.y += _angleStep;
         }
     }
 
